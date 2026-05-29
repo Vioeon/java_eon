@@ -40,7 +40,7 @@ public class VarargsTest {
         this.sum(10,20);
         sum(10,20,30);
         sum(10,20,30,40);
-        sum(10,20,30,40,50,60,70,80,90,100);
+        sum(10,20,30,40,50,60,70,80,90,100,101);
         System.out.println("11. main 메소드 종료");
     }
 }
