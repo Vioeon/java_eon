@@ -84,7 +84,7 @@ public class Game {
                 }
                 battleEndCheck(); // 내가 죽거나 몬스터 처치 상태 체크
             }
-            isEnemyDead(); // 적 처치
+            enemyDead(); // 적 처치
         } else if (event < 80) { // 20%
             getHeal(); // 회복 아이템 획득
         } else if (event < 95) { // 15%
@@ -124,12 +124,14 @@ public class Game {
         System.out.println("보유 아이템 : 회복(x" + cntHeal + "), 연막(x" + cntSmoke + ")");
         System.out.println("궁극기 횟수 : " + cntUlt);
     }
+
     public void battle() {
         System.out.println("[몬스터와 싸웁니다.]");
 
         playerAtk(); // 플레이어 공격 처리
-        enemyAtk(); // 몬스터 공격 처리
-
+        if(enemyHp > 0){
+            enemyAtk(); // 적 공격 처리
+        }
     }
     public void playerAtk() {
         // 플레이어 공격
@@ -153,6 +155,7 @@ public class Game {
             System.out.println((enemyAtk * 2) + " 치명타 피해를 받았습니다.");
         }
     }
+
     public void useSmoke() {
         if (cntSmoke > 0) {
             System.out.println("[연막을 터트려 도망갑니다.]");
@@ -196,6 +199,7 @@ public class Game {
             System.out.println("[궁극기를 사용할 수 없습니다!]");
         }
     }
+
     public void battleEndCheck() {
         if (playerHp <= 0) {
             System.out.println("당신은 사망하였습니다.\n");
@@ -205,7 +209,7 @@ public class Game {
             isBattle = false;
         }
     }
-    public void isEnemyDead() {
+    public void enemyDead() {
         if (enemyHp <= 0) {
             levelCheck();
         }
@@ -241,8 +245,7 @@ public class Game {
         cntUlt += 1;
     }
 
-    void main() {
-
+    public void run() {
         startGame();
 
         while (isRunning) {
@@ -257,5 +260,9 @@ public class Game {
             }
             gameOverCheck();
         }
+    }
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.run();
     }
 }
