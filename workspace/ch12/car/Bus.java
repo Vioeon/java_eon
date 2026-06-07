@@ -21,17 +21,27 @@ public class Bus extends Car{
         this.price = price;
         this.maxPassenger = maxPassenger;
     }
-
-    static int getTotalMoney(){
+    public int getPrice(){
+        return price;
+    }
+    public static int getTotalMoney(){
         return totalMoney;
     }
     // 승차
-    void ride(){
+    void ride(Passenger p){
         if(passengerCount < maxPassenger){
+            int payMoney = p.payment(price,p.getPayMethod()); // 승객이 지불할 요금
+
             passengerCount++;
-            money += price;
-            totalMoney += price;
-            System.out.println("1명이 승차하였습니다.");
+            totalPassenger++;
+
+            money += payMoney;
+            totalMoney += payMoney;
+            if(p.getAgeGroup().equals("영유아")){
+                System.out.println(p.getAge() + "세 " + p.getAgeGroup() + " 1명이 " + p.getPayMethod() + "로 승차하였습니다.");
+            }else {
+                System.out.println(p.getAge() + "세 " + p.getAgeGroup() + " 1명이 " + p.getPayMethod() + "(으)로 " + payMoney + "원을 지불하고 승차하였습니다.");
+            }
         }else{
             System.out.println("승차 인원이 초과되었습니다. 다음 버스를 타세요.");
         }
@@ -49,7 +59,7 @@ public class Bus extends Car{
         if(station == stations.length){
             station = 0;
         }
-        System.out.println("이번정류장은 " + stations[station] + "입니다");
+        System.out.println("< 이번정류장은 " + stations[station] + "입니다 >");
     }
     // 기다리는 버스가 몇 정거장 전에 있는가?
     int getStationsLeft() {
@@ -64,6 +74,8 @@ public class Bus extends Car{
                 + ", 현재 위치: " + stations[station]
                 + ", 남은 좌석: " + (maxPassenger-passengerCount)
                 + ", 요금: " + price
-                + ", 수익: " + money;
+                + ", 수익: " + money
+                + ", [ 총 승차 인원: " + totalPassenger
+                + ", 버스 전체 총 수익: " + getTotalMoney() + " ]";
     }
 }
