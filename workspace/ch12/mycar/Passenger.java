@@ -1,4 +1,4 @@
-package ch12.car;
+package ch12.mycar;
 
 public class Passenger {
     private int age; // 승객 나이

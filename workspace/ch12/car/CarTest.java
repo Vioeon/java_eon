@@ -7,19 +7,13 @@ public class CarTest {
         mycar.speed = 100;
 
         mycar.start();
-        mycar.speedUp();
-        mycar.speedUp();
-        mycar.speedUp();
+        mycar.speedUp(3);
         mycar.gearUp();
-        mycar.speedUp();
-        mycar.speedUp();
+        mycar.speedUp(2);
         mycar.gearUp();
-        mycar.speedUp();
-        mycar.speedUp();
-        mycar.speedUp();
+        mycar.speedUp(3);
         mycar.gearUp();
-        mycar.speedUp();
-        mycar.speedUp();
+        mycar.speedUp(2);
 
         mycar.stop();
     }

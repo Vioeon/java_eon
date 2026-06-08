@@ -1,6 +1,6 @@
-package ch12.car;
+package ch12.mycar;
 
-public class Teenager extends Passenger{
+public class Teenager extends Passenger {
 
     public Teenager(int age, String payMethod){
         super(age, payMethod);

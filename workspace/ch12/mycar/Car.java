@@ -1,4 +1,4 @@
-package ch12.car;
+package ch12.mycar;
 
 public class Car {
     // 필드
@@ -16,12 +16,6 @@ public class Car {
     void speedUp() {
         speed += 10;
         System.out.println("가속합니다. 현재 속도는 " + speed + "km/h 입니다.");
-    }
-    // 10km/h 가속한다.
-    void speedUp(int n) {
-        for(int i=0; i<n; i++){
-            speedUp();
-        }
     }
 
     // 10km/h 감속한다.
@@ -46,7 +40,7 @@ public class Car {
     void start() {
         System.out.println("\n" + model + " 출발합니다.");
         gearUp();
-        speedUp(1);
+        speedUp();
     }
 
     // 멈춘다.

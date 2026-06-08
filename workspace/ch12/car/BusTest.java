@@ -6,48 +6,37 @@ public class BusTest {
                 , new String[]{"집", "고등학교", "시청"}, 1300, 15);
 
         mycar.start();
-        mycar.speedUp();
+        mycar.speedUp(1);
         mycar.stop();
-        for (int i = 0; i < 2; i++) {
-            Passenger p = Passenger.randomPassenger(); // 랜덤 승객 객체 생성
-            mycar.ride(p); // 승객 정보로 승차
-        }
+        mycar.ride(1);
         System.out.println(mycar.getBusInfo());
 
         mycar.start();
-        mycar.speedUp();
+        mycar.speedUp(1);
         mycar.stop();
-        for (int i = 0; i < 3; i++) {
-            Passenger p = Passenger.randomPassenger();
-            mycar.ride(p);
-        }
+        mycar.ride(3);
         System.out.println(mycar.getBusInfo());
-        mycar.leave();
-        mycar.leave();
+        mycar.leave(2);
         System.out.println(mycar.getBusInfo());
 
-        // 버스2
-        Bus mycar1 = new Bus("페라리", "110-2", "마을버스"
-                , new String[]{"식당", "대학교", "레스토랑"}, 1500, 15);
-        mycar1.start();
-        mycar1.speedUp();
-        mycar1.stop();
-        for (int i = 0; i < 1; i++) {
-            Passenger p = Passenger.randomPassenger();
-            mycar1.ride(p);
-        }
-        System.out.println(mycar1.getBusInfo());
+//        // 버스2
+        Bus mycar2 = new Bus("전기버스", "3005-2", "광역버스"
+                , new String[]{"김포시청", "발산역", "홍대역", "서울 시청"}, 3500, 45);
+        mycar2.start();
+//        mycar2.speedUp();
+        mycar2.stop();
+        mycar2.ride(1);
+        System.out.println(mycar2.getBusInfo());
 
-        mycar1.start();
-        mycar1.speedUp();
-        mycar1.stop();
-        for (int i = 0; i < 4; i++) {
-            Passenger p = Passenger.randomPassenger();
-            mycar1.ride(p);
-        }
-        System.out.println(mycar1.getBusInfo());
-        mycar1.leave();
-        mycar1.leave();
-        System.out.println(mycar1.getBusInfo());
+        mycar2.start();
+//        mycar2.speedUp();
+        mycar2.stop();
+        mycar2.ride(2);
+        System.out.println(mycar2.getBusInfo());
+        mycar2.leave(2);
+        System.out.println(mycar2.getBusInfo());
+
+        System.out.println(mycar); // toString 오버라이딩해서 출력 가능하다.
+        System.out.println(mycar2.toString());
     }
 }
