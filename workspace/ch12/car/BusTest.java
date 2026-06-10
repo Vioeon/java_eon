@@ -38,5 +38,9 @@ public class BusTest {
 
         System.out.println(mycar); // toString 오버라이딩해서 출력 가능하다.
         System.out.println(mycar2.toString());
+
+        System.out.println(mycar.equals(mycar2));
+        System.out.println(mycar.hashcode());
+        System.out.println(mycar2.hashcode());
     }
 }

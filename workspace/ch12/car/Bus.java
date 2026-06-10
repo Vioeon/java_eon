@@ -2,6 +2,8 @@ package ch12.car;
 
 import ch12.mycar.Passenger;
 
+import java.util.Objects;
+
 public class Bus extends Car {
     private int passengerCount; // 승객수
     private String no; // 버스 번호
@@ -92,6 +94,7 @@ public class Bus extends Car {
                 + ", 모든 버스 수익 총합: " + totalMoney + " ]";
     }
     // 버스의 현재 상태를 출력한다.
+    @Override
     public String toString() { // 오버라이딩
         return "버스 번호: " + no
                 + ", 종류: " + type
@@ -101,6 +104,18 @@ public class Bus extends Car {
                 + ", 수익: " + money
                 + ", [ 누적 승차 인원: " + totalPassenger
                 + ", 모든 버스 수익 총합: " + totalMoney + " ]";
+    }
+
+    public boolean equals(Object o){
+        if( o == null || getClass() != o.getClass()){
+            return false;
+        }
+        Bus bus = (Bus) o;
+        return Objects.equals(no, bus.no);
+    }
+
+    public int hashcode() {
+        return Objects.hashCode(no);
     }
 
 }
