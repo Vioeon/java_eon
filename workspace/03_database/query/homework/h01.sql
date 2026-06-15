@@ -69,7 +69,7 @@ VALUES
 SELECT title, view_count FROM post WHERE view_count > 10;
 
 -- 5. post 테이블에서 2번 회원(member_id = 2)이 작성한 모든 게시글의 작성자, 제목, 작성일을 최신순(작성일 내림차순)으로 조회하세요.
-SELECT (SELECT name FROM MEMBER WHERE id = post.member_id) AS name, title, created_at FROM post WHERE member_id = 2 ORDER BY created_at DESC;
+SELECT id, title, created_at FROM post WHERE member_id = 2 ORDER BY created_at DESC;
 
 -- 6. post 테이블에서 본문(content)에 '안녕'이 들어간 게시글 목록의 모든 컬럼을 최신순(작성일 내림차순)으로 조회하세요.
 SELECT * FROM post WHERE content LIKE ('%안녕%') ORDER BY created_at DESC;
