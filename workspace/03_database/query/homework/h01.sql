@@ -66,7 +66,7 @@ VALUES
 (20, 4, '좋은 하루 보내세요!', '2026-06-13 00:08:46'); -- 30
 
 -- 4. post 테이블에서 조회수(view_count)가 10회 이상인 게시글의 제목, 조회수를 조회하세요.
-SELECT title, view_count FROM post WHERE view_count > 10;
+SELECT title, view_count FROM post WHERE view_count >= 10;
 
 -- 5. post 테이블에서 2번 회원(member_id = 2)이 작성한 모든 게시글의 작성자, 제목, 작성일을 최신순(작성일 내림차순)으로 조회하세요.
 SELECT member_id, title, created_at FROM post WHERE member_id = 2 ORDER BY created_at DESC;
