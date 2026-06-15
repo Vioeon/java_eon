@@ -69,13 +69,14 @@ VALUES
 SELECT title, view_count FROM post WHERE view_count >= 10;
 
 -- 5. post 테이블에서 2번 회원(member_id = 2)이 작성한 모든 게시글의 작성자, 제목, 작성일을 최신순(작성일 내림차순)으로 조회하세요.
+-- SELECT (SELECT name FROM MEMBER WHERE id = post.member_id) AS name, title, created_at FROM post WHERE member_id = 2 ORDER BY created_at DESC;
 SELECT member_id, title, created_at FROM post WHERE member_id = 2 ORDER BY created_at DESC;
 
 -- 6. post 테이블에서 본문(content)에 '안녕'이 들어간 게시글 목록의 모든 컬럼을 최신순(작성일 내림차순)으로 조회하세요.
 SELECT * FROM post WHERE content LIKE ('%안녕%') ORDER BY created_at DESC;
 
 -- 7. reply 테이블에서 3번 게시글(post_id = 3)에 달린 모든 댓글의 게시글 id, 본문, 작성일을 오래된 순(작성일 오름차순)으로 조회하세요.
-SELECT id, content, created_at FROM reply WHERE post_id = 3 ORDER BY created_at ASC;
+SELECT post_id, content, created_at FROM reply WHERE post_id = 3 ORDER BY created_at ASC;
 
 -- 8. 1페이지당 5개씩 게시글 목록을 보여줄 때 조회수(view_count)가 높은 순서대로 정렬하고 3페이지 게시글 목록의 id, 제목, 조회수를 조회하세요.
 SELECT id, title, view_count FROM post ORDER BY view_count DESC LIMIT 10,5;

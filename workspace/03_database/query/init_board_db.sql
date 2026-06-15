@@ -41,6 +41,7 @@ INSERT INTO member (email, password, name, phone) VALUES ('haru@gmail.com', '111
 INSERT INTO member (email, password, name, phone) VALUES ('yong@gmail.com', '222','용쌤', '01011112222');
 INSERT INTO member (email, password, name, phone) VALUES ('harong@gmail.com', 'pwd012', '하롱이', '01033334444');
 INSERT INTO member (email, password, name, phone) VALUES ('namu@gmail.com', 'pwd789', '나무', '01055556666');
+INSERT INTO member (email, password, name, phone) VALUES ('test@gmail.com', 'test111', '데스트', '01077776666');
 
 -- 게시글 데이터 삽입
 INSERT INTO post (member_id, title, content, created_at) VALUES (1, '첫 번째 게시글', '안녕하세요. 반갑습니다.', '2026-05-23 14:33:54');
