@@ -14,8 +14,10 @@ create table `member`(
 	password varchar(100) not null,
 	name varchar(10) not null,
 	phone char(12),
+	recommender_id int DEFAULT NULL,
 	created_at datetime default CURRENT_TIMESTAMP(),
-	primary key(id)
+	primary key(id),
+	FOREIGN KEY (recommender_id) REFERENCES member(id) ON DELETE SET NULL
 );
 create table `post`(
 	id int not null auto_increment,
@@ -43,12 +45,13 @@ create table `reply`(
 -- INSERT INTO member (email, password, name, phone) VALUES ('namu@gmail.com', 'pwd789', '나무', '01055556666');
 
 -- 모든 컬럼의 값을 순서대로 입력하여 데이터 삽입 (auto_increment는 NULL, default는 DEFAULT 키워드 사용)
-INSERT INTO member VALUES (NULL, 'haru@gmail.com', 'pwd123', '하루', '01011112222', DEFAULT);
-INSERT INTO member VALUES (NULL, 'haru2@gmail.com', 'pwd123', '하루2', NULL, '2025-05-10 12:13:45');
-INSERT INTO member (email, password, name, created_at) VALUES ('namu@gmail.com', 'pwd789', '나무', '2026-04-29 13:34:32');
-INSERT INTO member (email, password, name, phone, created_at) VALUES
-    ('harong@gmail.com', 'pwd012', '하롱이', '01022223333', '2026-05-29 13:34:32'),
-    ('yong@gmail.com', 'pwd456', '용쌤', '0103334444', '2026-06-05 14:34:12');
+INSERT INTO member VALUES (NULL, 'haru@gmail.com', 'pwd123', '하루', '01011112222', NULL, DEFAULT);
+INSERT INTO member VALUES (NULL, 'haru2@gmail.com', 'pwd123', '하루2', NULL, 1, '2025-05-10 12:13:45');
+INSERT INTO member (email, password, name, recommender_id, created_at) VALUES ('namu@gmail.com', 'pwd789', '나무', NULL, '2026-04-29 13:34:32');
+INSERT INTO member (email, password, name, phone, recommender_id, created_at) VALUES
+    ('harong@gmail.com', 'pwd012', '하롱이', '01022223333', 1, '2026-05-29 13:34:32'),
+    ('yong@gmail.com', 'pwd456', '용쌤', '0103334444', 2, '2026-06-05 14:34:12'),
+    ('qqqq@gmail.com', 'www', 'gd쌤', '0103334444', null, '2026-06-05 14:34:12');
 
 -- 게시글 데이터 삽입
 INSERT INTO post (member_id, title, content, created_at) VALUES (1, '첫 번째 게시글', '안녕하세요. 반갑습니다.', '2026-05-23 14:33:54');
@@ -85,8 +88,8 @@ INSERT INTO post (member_id, title, content, created_at, view_count) VALUES
   (1, '여섯 번째 게시글', '자바 조건문 switch-case 문 실습을 하고 있습니다.', '2026-06-13 06:00:00', 7),
   (2, '안녕 테스트 글', '이 본문에는 안녕이라는 단어가 들어갑니다. 반갑습니다.', '2026-06-13 07:00:00', 13),
   (3, '추상 클래스와 인터페이스', '둘 다 추상 메서드를 가지는데 어떤 상황에 구분해서 쓸까요?', '2026-06-13 08:00:00', 25),
-  (4, '자바 static 키워드 정리', '클래스 멤버와 인스턴스 멤버의 차이를 정리했습니다.', default, 6),
-  (5, '자바 형변환(Casting) 복습', '기본 타입과 참조 타입의 형변환 규칙을 정리해 봅니다.', default, 33);
+  (null, '자바 static 키워드 정리', '클래스 멤버와 인스턴스 멤버의 차이를 정리했습니다.', default, 6),
+  (null, '자바 형변환(Casting) 복습', '기본 타입과 참조 타입의 형변환 규칙을 정리해 봅니다.', default, 33);
 
 -- 3. reply 테이블에 샘플 댓글 30개를 추가하세요.(작성일은 기본값 대신 각각 다른 값으로 직접 입력하세요.)
 -- 작성일은 기본값(CURRENT_TIMESTAMP) 대신 각각 다른 값으로 직접 입력하세요.
@@ -145,7 +148,7 @@ SET DEFAULT ROLE 'developer' TO 'user1'@'localhost';
 
 
 -- db 사용자 조회
-SELECT USER, host FROM mysql.USER;
-
-SHOW grants;
-SHOW GRANTS FOR 'user1'@'localhost';
+-- SELECT USER, host FROM mysql.USER;
+-- 
+-- SHOW grants;
+-- SHOW GRANTS FOR 'user1'@'localhost';
