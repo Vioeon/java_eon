@@ -1,44 +1,27 @@
 -- 1. 게시글 목록 조회 (작성자 이름, 댓글 수 포함, 최신 등록순 정렬)
 -- 작성한지 24시간 이내의 게시글 제목 앞에 (New) 추가
 -- 댓글이 3개 이상 달린 게시글 제목 앞에 (Best) 추가
-
--- -- 1) Member, Post, Reply 테이블 모두 필요하므로 Join으로 모두 묶어준다.
-SELECT *
-FROM post p
-JOIN MEMBER m
-	ON p.member_id = m.id
-JOIN reply r
-	ON r.post_id = p.id
-ORDER BY p.created_at DESC;
-
--- -- 2) 출력해야할 컬럼들 조회
-SELECT p.id AS '게시글 번호', p.title AS '제목', p.content AS '내용', m.name AS '작성자', p.VIEW_COUNT AS '조회수', '댓글수',p.CREATED_AT AS '작성일'
-FROM post p
-LEFT JOIN MEMBER m
-	ON p.member_id = m.id
-LEFT JOIN reply r
-	ON r.post_id = p.id
-ORDER BY p.created_at DESC;
-
--- -- 3) title에 해당하는 조건이 2개 이상이므로 CASE 문으로 작성한다. COUNT는 GROUP BY써야하니까 나중으로 빼고 1번 조건먼저 작성
-SELECT p.id AS '게시글 번호', 
-	CASE WHEN p.created_at >= date_sub(now(), INTERVAL 24 HOUR) THEN concat('(New) ', p.title)
-	ELSE p.title
-	END  AS '제목'
-	, p.content AS '내용', m.name AS '작성자', p.VIEW_COUNT AS '조회수', '댓글수',p.CREATED_AT AS '작성일'
-FROM post p
-LEFT JOIN MEMBER m
-	ON p.member_id = m.id
-LEFT JOIN reply r
-	ON r.post_id = p.id
-ORDER BY p.created_at DESC;
-
--- -- 4) 완) 게시글이 중복 되어 있으므로 group by로 묶어 준다. 그리고 count로 댓글개수 조회
 SELECT p.id AS '게시글 번호', 
 	CASE WHEN p.created_at >= date_sub(now(), INTERVAL 24 HOUR) THEN concat('(New) ', p.title)
 		 WHEN count(r.id) >= 3 THEN concat('(Best) ', p.title)
 	ELSE p.title
 	END  AS '제목'
+	, p.content AS '내용', m.name AS '작성자', p.VIEW_COUNT AS '조회수', count(r.id) AS '댓글수 ', p.CREATED_AT AS '작성일'
+FROM post p
+LEFT JOIN MEMBER m
+	ON p.member_id = m.id
+LEFT JOIN reply r
+	ON r.post_id = p.id
+GROUP BY p.id
+ORDER BY p.created_at DESC;
+
+-- title 조건 개선한 코드
+SELECT p.id AS '게시글 번호', 
+	CONCAT(
+		CASE WHEN p.created_at >= date_sub(now(), INTERVAL 24 HOUR) THEN '(New) ' ELSE '' END,
+		CASE WHEN count(r.id) >= 3 THEN '(Best) ' ELSE '' END,
+		P.title
+	) AS '제목'
 	, p.content AS '내용', m.name AS '작성자', p.VIEW_COUNT AS '조회수', count(r.id) AS '댓글수 ', p.CREATED_AT AS '작성일'
 FROM post p
 LEFT JOIN MEMBER m
@@ -65,7 +48,7 @@ FROM(
 ORDER BY A.ID ASC;
 
 -- 개선한 코드
--- Flat Join Structure, 평평한 join구조, 중첩 조인이랑 성능 차이는 없음, 별칭의 유효범위 때문에 이렇게 쓰는거 추천
+-- JOIN Chain
 SELECT p.id AS '게시글 번호', p.title AS '게시글 제목', p.content AS '내용', p.CREATED_AT AS '게시글 작성일', pm.name AS '작성자', pm.email AS '이메일', rm.name AS '댓글 작성자', r.content AS '댓글 내용', r.CREATED_AT AS '댓글 작성일'
 FROM post p
 JOIN MEMBER pm
@@ -84,7 +67,7 @@ INSERT INTO post (member_id, title, content)
 UPDATE post
 	SET title = '수정된 제목입니다.',
 		content = '수정된 내용입니다.'
-	WHERE id = 2;
+WHERE id = 2;
 
 -- 5. 게시글 삭제 (3번에서 등록한 게시글 삭제) DELETE FROM T
 DELETE FROM post
