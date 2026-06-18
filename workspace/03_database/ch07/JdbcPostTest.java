@@ -16,10 +16,15 @@ public class JdbcPostTest {
         findAll();
         delete(1);
         findAll();
+
+        deleteAll(2);
+        findAll();
     }
 
     // 등록
     static void insert(int memberId, String title, String content) {
+        String sql = "INSERT INTO post(member_id, title, content) VALUES (" + memberId + ",'" + title + "','" + content + "');";
+
         Connection conn = null;
         Statement stmt = null;
 
@@ -27,7 +32,7 @@ public class JdbcPostTest {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             stmt = conn.createStatement();
 
-            int affectedRows = stmt.executeUpdate("INSERT INTO post(member_id, title, content) VALUES (" + memberId + ",'" + title + "','" + content + "');");
+            int affectedRows = stmt.executeUpdate(sql);
 
             System.out.println("게시글 등록 " + affectedRows + "건 완료\n");
         } catch (SQLException e) {
@@ -52,10 +57,12 @@ public class JdbcPostTest {
 
     // 목록 조회
     static void findAll() {
+        String sql = "SELECT id, member_id, title, content, created_at FROM post;";
+
         try(
             Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT id, member_id, title, content, created_at FROM post;");
+            ResultSet rs = stmt.executeQuery(sql);
         ){
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -69,11 +76,14 @@ public class JdbcPostTest {
             System.out.println();
         }catch(SQLException e){
             System.out.println("에러 : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     // 한 건 조회
     static void findById(int id) {
+        String sql = "SELECT id, member_id, title, content, created_at FROM post WHERE id = " + id + ";";
+
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -82,9 +92,9 @@ public class JdbcPostTest {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             stmt = conn.createStatement();
 
-            rs = stmt.executeQuery("SELECT id, member_id, title, content, created_at FROM post WHERE id = " + id + ";");
+            rs = stmt.executeQuery(sql);
 
-            while (rs.next()) {
+            if (rs.next()) {
                 int pid = rs.getInt("id");
                 int memberId = rs.getInt("member_id");
                 String title = rs.getString("title");
@@ -122,6 +132,8 @@ public class JdbcPostTest {
 
     // 수정
     static void update(int id, String title, String content) {
+        String sql = "UPDATE post SET title = '" + title + "', content = '" + content + "' WHERE id = " + id + ";";
+
         Connection conn = null;
         Statement stmt = null;
 
@@ -129,7 +141,7 @@ public class JdbcPostTest {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             stmt = conn.createStatement();
 
-            int affectedRows = stmt.executeUpdate("UPDATE post SET title = '" + title + "', content = '" + content + "' WHERE id = " + id + ";");
+            int affectedRows = stmt.executeUpdate(sql);
 
             System.out.println(id + "번 게시글 수정 " + affectedRows + "건 완료\n");
         } catch (SQLException e) {
@@ -152,8 +164,10 @@ public class JdbcPostTest {
         }
     }
 
-    // 삭제
+    // 게시글 1개 삭제
     static void delete(int id) {
+        String sql = "DELETE FROM post WHERE id = " + id + ";";
+
         Connection conn = null;
         Statement stmt = null;
 
@@ -161,9 +175,43 @@ public class JdbcPostTest {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             stmt = conn.createStatement();
 
-            int affectedRows = stmt.executeUpdate("DELETE FROM post WHERE id = " + id + ";");
+            int affectedRows = stmt.executeUpdate(sql);
 
             System.out.println(id + "번 게시글 삭제 " + affectedRows + "건 완료\n");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    // 회원의 모든 게시글 삭제
+    static void deleteAll(int memberId) {
+        String sql = "DELETE FROM post WHERE member_id = " + memberId + ";";
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            stmt = conn.createStatement();
+
+            int affectedRows = stmt.executeUpdate(sql);
+
+            System.out.println(memberId + "번 회원의 모든 게시글 삭제 " + affectedRows + "건 완료\n");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
