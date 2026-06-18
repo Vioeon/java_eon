@@ -30,3 +30,6 @@ SELECT ID, EMAIL, NAME, CREATED_AT FROM MEMBER ORDER BY CREATED_AT DESC, NAME AS
 SELECT id, title, created_at FROM post ORDER BY created_at DESC LIMIT 2;
 -- 페이징 처리: 한 페이지에 10건씩, 2페이지 조회 (11번째~20번째 행)
 SELECT id, title, created_at FROM post ORDER BY created_at DESC LIMIT 2, 2;
+
+-- 로그인 체크
+SELECT * FROM MEMBER WHERE email = "haru@gmail.com" AND password = "pwd123";
