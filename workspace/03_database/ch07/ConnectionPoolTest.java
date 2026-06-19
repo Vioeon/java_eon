@@ -14,29 +14,29 @@ public class ConnectionPoolTest {
     private static DataSource dataSource;
 
     // static 블럭은 실행될 때 최초 1번만 실행 된다.
-    static{
+    static {
         HikariConfig config = new HikariConfig("/hikari.properties");
         dataSource = new HikariDataSource(config);
     }
 
     public static void main(String[] args) {
-//        findAll();
-//        insert(2, "2번이 등록한 게시글", "안녕하세요. 자바 공부 해요.");
-//        findById(10);
-//        update(10, "수정된 10번 게시글", "수정했어요");
-//        findAll();
-//        delete(1);
-//        findAll();
-//
-//        deleteAll(2);
-//        findAll();
+        findAll();
+        insert(3, "2번이 등록한 게시글", "안녕하세요. 자바 공부 해요.");
+        findById(10);
+        update(10, "수정된 10번 게시글", "수정했어요");
+        findAll();
+        delete(1);
+        findAll();
+
+        deleteAll(2);
+        findAll();
 
         login("haru@gmail.com", "123");
         login("haru@gmail.com", "pwd123");
         login("haru@gmail.com' OR '1' = '1", "asdfas");
 
-        if(dataSource != null){
-            ((HikariDataSource)dataSource).close();
+        if (dataSource != null) {
+            ((HikariDataSource) dataSource).close();
         }
     }
 
@@ -44,13 +44,10 @@ public class ConnectionPoolTest {
     static void insert(int memberId, String title, String content) {
         String sql = "INSERT INTO post(member_id, title, content) VALUES (?, ?, ?);";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(sql);
-
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
             pstmt.setInt(1, memberId);
             pstmt.setString(2, title);
             pstmt.setString(3, content);
@@ -59,21 +56,6 @@ public class ConnectionPoolTest {
             //System.out.println("게시글 등록 " + affectedRows + "건 완료");
         } catch (SQLException e) {
             System.out.println("에러 : " + e.getMessage());
-        } finally {
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -122,16 +104,12 @@ public class ConnectionPoolTest {
     static void findById(int id) {
         String sql = "SELECT id, member_id, title, content, created_at FROM post WHERE id = ?";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(sql);
-
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
             pstmt.setInt(1, id);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 int pid = rs.getInt("id");
@@ -144,28 +122,6 @@ public class ConnectionPoolTest {
             }
         } catch (SQLException e) {
             System.out.println("에러 : " + e.getMessage());
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -173,13 +129,10 @@ public class ConnectionPoolTest {
     static void update(int id, String title, String content) {
         String sql = "UPDATE post SET title = ?, content = ? WHERE id = ?";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(sql);
-
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
             pstmt.setString(1, title);
             pstmt.setString(2, content);
             pstmt.setInt(3, id);
@@ -188,21 +141,6 @@ public class ConnectionPoolTest {
             System.out.println(id + "번 게시글 수정 " + affectedRows + "건 완료\n");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -210,34 +148,16 @@ public class ConnectionPoolTest {
     static void delete(int id) {
         String sql = "DELETE FROM post WHERE id = ?";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(sql);
-
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
             pstmt.setInt(1, id);
             int affectedRows = pstmt.executeUpdate();
 
             System.out.println(id + "번 게시글 삭제 " + affectedRows + "건 완료\n");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -245,34 +165,16 @@ public class ConnectionPoolTest {
     static void deleteAll(int memberId) {
         String sql = "DELETE FROM post WHERE member_id = ?";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(sql);
-
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
             pstmt.setInt(1, memberId);
             int affectedRows = pstmt.executeUpdate();
 
             System.out.println(memberId + "번 회원의 모든 게시글 삭제 " + affectedRows + "건 완료\n");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }
