@@ -1,6 +1,24 @@
-package ch02.array;
+package ch02.list;
 
-public class MyLinkedList {
+public class MyLinkedList implements MyList{
+    // inner 클래스 생성
+    private class Node{
+        /**
+         * 저장할 객체
+         */
+        private Object data;
+
+        /**
+         * 연결된 다음 노드를 참조하는 변수
+         */
+        private Node nextNode;
+
+        Node(Object data){
+            this.data = data;
+            this.nextNode = null;
+        }
+    }
+
     /**
      * 첫번째 노드
      */
@@ -14,7 +32,7 @@ public class MyLinkedList {
         header = new Node(null);
     }
     // 헤더의 값은 null이다
-    public void appendFirst(Object data){
+    public void addFirst(Object data){
         Node node = new Node(data);
         // 헤더가 가리키고 있는 첫번째 노드의 주소를 삽입한 노드의 nextNode로 지정
         node.nextNode = header.nextNode;
@@ -28,9 +46,9 @@ public class MyLinkedList {
      * @param index data가 삽입될 위치
      * @param data 삽입할 데이터
      */
-    public void appendTo(int index, Object data){
+    public void add(int index, Object data){
         if(index == 0){
-            appendFirst(data);
+            addFirst(data);
         }else{
             Node newNode = new Node(data); // 추가할 새로운 노드
             Node pNode = getNode(index-1); // index에 있던 원래 노드
@@ -45,8 +63,8 @@ public class MyLinkedList {
      * data를 리스트의 마지막에 추가한다.
      * @param data 추가할 데이터
      */
-    public void appendTo(Object data){
-        appendTo(size, data);
+    public void add(Object data){
+        add(size, data);
     }
     /**
      * 리스트의 첫번째 요소를 삭제한다.
@@ -125,21 +143,4 @@ public class MyLinkedList {
         return getNode(index).data;
     }
 
-    // inner 클래스 생성
-    private class Node{
-        /**
-         * 저장할 객체
-         */
-        private Object data;
-
-        /**
-         * 연결된 다음 노드를 참조하는 변수
-         */
-        private Node nextNode;
-
-        Node(Object data){
-            this.data = data;
-            this.nextNode = null;
-        }
-    }
 }

@@ -1,15 +1,15 @@
-package ch02.array;
+package ch02.list;
 
 public class MyLinkedListTest {
     void main() {
         long start = System.currentTimeMillis();
 
         // 10개의 요소를 담을 수 있는 MyLinkedList 객체를 생성한다.
-        MyLinkedList arr = new MyLinkedList();
+        MyList arr = new MyLinkedList();
 
         // MyLinkedList "데이터-0"부터 "데이터-4"까지의 문자열을 담는다.
-        for(int i=0; i<10000; i++){
-            arr.appendTo("데이터-" + i);
+        for(int i=0; i<5; i++){
+            arr.add("데이터-" + i);
         }
 
         // MyLinkedList 담긴 모든 요소를 출력한다. [데이터-0, 데이터-1, ..., 데이터-4]
@@ -28,13 +28,14 @@ public class MyLinkedListTest {
         System.out.println(arr);
 
         // index 2에 데이터-5를 삽입한다.
-        arr.appendTo(2,"데이터-5");
+        arr.add(2,"데이터-5");
 
         // MyLinkedList 담긴 모든 요소를 출력한다. [데이터-0, 데이터-1, 데이터-5, 데이터-3, 데이터-4]
         System.out.println(arr);
 
-        // 마지막 위치에 데이터-6을 추가한다.
-        arr.appendTo("데이터-6");
+        // 맨 앞에 데이터-6을 추가한다.
+        arr.add(0,"데이터-6");
+        //arr.addFirst("데이터-6");
 
         // MyLinkedList 담긴 모든 요소를 출력한다. [데이터-0, 데이터-1, 데이터-5, 데이터-3, 데이터-4, 데이터-6]
         System.out.println(arr);

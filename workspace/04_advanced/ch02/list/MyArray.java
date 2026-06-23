@@ -1,6 +1,4 @@
-package ch02.array;
-
-import java.util.Arrays;
+package ch02.list;
 
 /**
  * 배열 불편한 점
@@ -10,7 +8,7 @@ import java.util.Arrays;
  * <p>
  * 이러한 불편한 점을 개선하여 배열을 쓰기 쉽게 만드는 클래스
  */
-public class MyArray {
+public class MyArray<E> implements MyList<E>{
     /**
      * 내부적으로 요소를 저장한느 배열 선언
      */
@@ -43,8 +41,8 @@ public class MyArray {
      *
      * @param elem 배열에 추가할 요소
      */
-    public void append(Object elem) {
-        append(count, elem);
+    public void add(E elem) {
+        add(count, elem);
     }
 
     /**
@@ -53,7 +51,7 @@ public class MyArray {
      * @param index 삽입할 위치
      * @param elem  삽입할 요소
      */
-    public void append(int index, Object elem) {
+    public void add(int index, E elem) {
         if(index < 0){
             throw new ArrayIndexOutOfBoundsException(index + " < 0");
         }else if(index > count){
@@ -80,7 +78,7 @@ public class MyArray {
      *
      * @param index
      */
-    public void delete(int index) {
+    public void remove(int index) {
         if(index >= count){
             System.out.println("인덱스 벗어남.");
             throw new ArrayIndexOutOfBoundsException(index + " >= " + count);
@@ -97,14 +95,14 @@ public class MyArray {
      * @param index 반환할 데이터의 위치
      * @return 어떤 데이터가 있을지 모르니까 Object를 반환
      */
-    public Object getElem(int index){
+    public E get(int index){
         if(index >= count){
             System.out.println("인덱스 벗어남.");
             throw new ArrayIndexOutOfBoundsException(index + " >= " + count);
         }else if(index < 0){
             throw new ArrayIndexOutOfBoundsException(index + " < 0");
         }
-        return data[index];
+        return (E)data[index];
     }
 
     /**
