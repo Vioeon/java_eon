@@ -13,9 +13,9 @@ public class Prob03 {
             map.put(phone, map.getOrDefault(phone, 0));
         }
         for(String key : map.keySet()){
-            if(key.contains(key)){
-
-            }
+//            if(key.contains(key..)){
+//
+//            }
         }
 
         return answer;
