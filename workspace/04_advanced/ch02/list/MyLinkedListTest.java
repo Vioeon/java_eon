@@ -1,11 +1,15 @@
 package ch02.list;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class MyLinkedListTest {
     void main() {
         long start = System.currentTimeMillis();
 
         // 10개의 요소를 담을 수 있는 MyLinkedList 객체를 생성한다.
         MyList arr = new MyLinkedList();
+
 
         // MyLinkedList "데이터-0"부터 "데이터-4"까지의 문자열을 담는다.
         for(int i=0; i<5; i++){
