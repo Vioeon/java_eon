@@ -30,7 +30,7 @@ public class Prob03 {
 //                result = name;
 //            }
 //        }
-        return result;
+        return result ;
     }
     void main() {
         int[] a = new int[]{5, 2, 3, 3, 3, 4};
