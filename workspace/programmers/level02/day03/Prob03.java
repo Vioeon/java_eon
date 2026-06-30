@@ -9,7 +9,7 @@ public class Prob03 {
     // 중복된 번호의 갯수 카운트
     public int solution(int[] array) {
 
-        int result;
+        int result = 0;
 //
 //        // Hash 인데 Set은 중복 데이터 불가 이므로 Map사용해야 함
 //        Map<String, Integer> map = new HashMap<>();
@@ -30,7 +30,7 @@ public class Prob03 {
 //                result = name;
 //            }
 //        }
-        int result;
+        return result;
     }
     void main() {
         int[] a = new int[]{5, 2, 3, 3, 3, 4};
