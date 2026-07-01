@@ -85,22 +85,47 @@
     const writeForm = document.querySelector('#writeForm');
     
     writeForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
       // 2. 제목 검증
-      
-      
+      const title = document.querySelector("#title");
+      if(title.value === ''){
+        alert('제목을 입력하세요');
+        title.focus();
+        return;
+      }
+
       // 3. 작성자 검증
-      
+      const writer = document.querySelector("#writer");
+      if(writer.value === ''){
+        alert('작성자 이름을 입력하세요');
+        writer.focus();
+        return;
+      }
       
       // 4. 카테고리 선택 검증
-      
+      const category = document.querySelector('select[name=category]');
+      if (category.value === '') {
+        alert('카테고리를 선택하세요.');
+        category.focus();
+        return;
+      }
       
       // 5. 내용 검증
-      
+      const content = document.querySelector("#content");
+      if(content.value === ''){
+        alert('내용을 입력하세요.');
+        content.focus();
+        return;
+      }
       
       // 최종 입력한 게시글 정보 객체 생성 및 출력
 
       const post = {
-
+          title: title.value,
+          write: writer.value,
+          category: category.value,
+          content: content.value
       };
       console.log('최종 입력한 게시글 정보', post);
 
