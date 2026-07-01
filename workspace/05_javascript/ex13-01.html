@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 가입</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: inline-block;
+      width: 100px;
+      font-weight: bold;
+    }
+
+    input[type='text'],
+    input[type='password'],
+    select {
+      width: 120px;
+      padding: 5px;
+    }
+
+    .gender-group,
+    .agree-group {
+      display: inline-block;
+    }
+
+    button {
+      padding: 4px 12px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>회원 가입</h1>
+
+  <form id="joinForm" onsubmit="join(event)" action="/join" method="POST">
+    <div class="form-group">
+      <label for="userId" class="form-label">아이디</label>
+      <input type="text" id="userId" name="userId" onchange="changeId()" placeholder="아이디 입력">
+      <button type="button" onclick="checkId()">중복 체크</button>
+    </div>
+
+    <div class="form-group">
+      <label for="userPwd" class="form-label">비밀번호</label>
+      <input type="password" id="userPwd" name="userPwd" placeholder="비밀번호 입력">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">성별</label>
+      <div class="gender-group">
+        <input type="radio" id="genderM" name="gender" value="male">
+        <label for="genderM">남성</label>
+        <input type="radio" id="genderF" name="gender" value="female">
+        <label for="genderF">여성</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="job" class="form-label">직업</label>
+      <select id="job" name="job">
+        <option value="">-- 선택하세요 --</option>
+        <option value="student">학생</option>
+        <option value="developer">개발자</option>
+        <option value="other">기타</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">약관 동의</label>
+      <div class="agree-group">
+        <input type="checkbox" id="agree" name="agree">
+        <label for="agree">이용약관에 동의합니다.</label>
+      </div>
+    </div>
+
+    <button type="submit">가입</button>
+  </form>
+
+  <script>
+    // 전역 변수
+    let isIdChecked = false;
+    let checkedId = '';
+
+    // 아이디 입력 값이 변경될 때 호출
+    function changeId() {
+      const userId = document.querySelector("#userId");
+      console.log('아이디 변경됨', userId.value);
+      isIdChecked = false;
+    }
+
+    // 아이디 중복(중복말고 입력) 체크
+    function checkId() {
+      console.log("중복 체크 시작");
+      // 입력한 id를 꺼내서 중복 여부를 체크한다.
+      const userIdEl = document.querySelector("#userId");
+      const userId = userIdEl.value.trim();
+      console.log('입력한 id:', userId);
+
+      // 서버에 id보내서 중복 체크
+
+      if (userId === '') {  // 아이디 입력 검증만 있음
+        alert('아이디를 먼저 입력하세요.');
+        userIdEl.value = '';
+        userIdEl.focus();
+        return;
+      }
+      isIdChecked = true;
+      checkedId = userId;
+      alert('사용 가능한 아이디입니다.');
+    }
+
+    // 회원 가입 처리
+    function join(event) {
+      console.log('회원 가입 요청');
+      console.log(event);
+      // 브라우저의 기본 동작 취소(submit 이벤트의 기본 동작인 서버로 데이터를 전송하는 작업을 취소)
+      event.preventDefault();
+
+      // 1. 아이디 검증
+      // HTML 요소중 id가 'userId'인 요소를 찾는다.
+      const userIdel = document.querySelector('#userId');
+      const userId = userIdel.value;
+      if (userId.trim() === '') {
+        alert('아이디를 입력하세요.');
+        userId = '';
+        userId.focus();
+        return;
+      }
+
+      // 2. 중복(아이디 입력) 체크 검증
+      if (!isIdChecked || userId.trim() !== checkedId) {
+        alert('아이디 중복 체크를 완료해주세요.');
+        return;
+      }
+
+      // 3. 비밀번호 검증
+      const userPwd = document.querySelector('#userPwd');
+      if (userPwd.value.trim() === '') {
+        alert('비밀번호를 입력하세요.');
+        userPwd.value = '';
+        userPwd.focus();
+        return;
+      }
+
+      // 4. 직업 검증
+      const userjob = document.querySelector('select[name=job]');
+      if (userjob.value === '') {
+        alert('직업을 입력하세요.');
+        userjob.focus();
+        return;
+      }
+
+      // 5. 약관 동의 검증
+      // HTML 요소중 ID가 'agree'인 요소를 찾는다.
+      const agree = document.querySelector('#agree');
+      if (!agree.checked) {
+        alert('이용약관을 동의해야 합니다.');
+        return;
+      }
+
+      // 6. 성별 검증
+      const checkedGender = document.querySelector('input[name=gender]:checked');  // 라디오버튼시 :checked
+      if (checkedGender === null) {
+        const get = confirm('성별을 선택 안하면 게시판 사용이 불가합니다. 이대로 진행하시겠습니까?'); // 사용자에게 확인(예/아니오)을 묻는 대화상자 표시
+        if (!get) {
+          return;
+        }
+      }
+
+      // 최종 입력한 회원 정보 조회
+      const member = {
+        userId: userId,
+        userPwd: userPwd.value,
+        gender: checkedGender? checkedGender.value : '선택안함',
+        job: userjob.value,
+        agree: agree.checked
+      };
+      console.log(member);
+      alert('회원 가입 요청 완료');
+    }
+
+  </script>
+</body>
+
+</html>

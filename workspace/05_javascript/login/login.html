@@ -8,6 +8,7 @@
     <link rel="icon" href="/assets/favicon/likelion.svg" type="image/svg" />
     <link rel="stylesheet" href="/assets/common/index.css" />
     <link rel="stylesheet" href="/login.css" />
+    <script defer src="/login.js"></script>
   </head>
   <body>
     <!-- <div>
@@ -28,7 +29,7 @@
       </a>
     </header>
     <main class="main">
-      <form class="login-form" action="/" method="post" novalidate>
+      <form class="login-form" action="/" method="GET" novalidate>
         <div class="input">
           <label for="id" class="sr-only">아이디</label>
           <input type="email" name="id" id="id" required="" placeholder="아이디" />
@@ -56,5 +57,7 @@
     <footer class="footer sr-only">
       <small> COPYRIGHT RESERVED. 2020 이듬(EUID) </small>
     </footer>
+
+    <script src="/login.js"></script>
   </body>
 </html>
