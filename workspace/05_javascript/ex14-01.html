@@ -89,7 +89,7 @@
 
       // 2. 제목 검증
       const title = document.querySelector("#title");
-      if(title.value === ''){
+      if(title.value.trim() === ''){
         alert('제목을 입력하세요');
         title.focus();
         return;
@@ -97,7 +97,7 @@
 
       // 3. 작성자 검증
       const writer = document.querySelector("#writer");
-      if(writer.value === ''){
+      if(writer.value.trim() === ''){
         alert('작성자 이름을 입력하세요');
         writer.focus();
         return;
@@ -113,7 +113,7 @@
       
       // 5. 내용 검증
       const content = document.querySelector("#content");
-      if(content.value === ''){
+      if(content.value.trim() === ''){
         alert('내용을 입력하세요.');
         content.focus();
         return;
@@ -125,6 +125,7 @@
           title: title.value,
           write: writer.value,
           category: category.value,
+          visible: document.querySelector('input[name=visible]:checked').value,
           content: content.value
       };
       console.log('최종 입력한 게시글 정보', post);
