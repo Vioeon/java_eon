@@ -21,6 +21,6 @@ public class Prob04 {
     void main() {
         int[] n = new int[]{3,4,5,2,1};
         int[] n1 = new int[]{5, 7, 8, 3};
-        System.out.println(solution(n1)); // 37
+        System.out.println(solution(n1));
     }
 }

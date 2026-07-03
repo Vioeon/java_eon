@@ -14,6 +14,6 @@ public class Prob03 {
     }
 
     void main() {
-        System.out.println(solution(2, 6, 1)); // 37
+        System.out.println(solution(2, 6, 1));
     }
 }
