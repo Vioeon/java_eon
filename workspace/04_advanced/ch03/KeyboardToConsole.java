@@ -13,6 +13,7 @@ public class KeyboardToConsole {
             while ((readData = System.in.read()) != -1) {
                 // 표준 출력장치로 1byte 출력
                 System.out.write(readData);
+                //System.out.print(readData); // 아스키코드로 출력
             }
 
         } catch (IOException e) {
