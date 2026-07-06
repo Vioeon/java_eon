@@ -2,6 +2,7 @@ package algorithm.Hash;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 public class Prob03 {
@@ -12,21 +13,28 @@ public class Prob03 {
         for(String phone : phone_book){
             map.put(phone, map.getOrDefault(phone, 0));
         }
-        for(String key : map.keySet()){
-//            if(key.contains(key..)){
-//
-//            }
-        }
+        for(int i=0; i<map.size(); i++){
+            for(int j=1; j<map.size(); j++){
 
+            }
+        }
+        for(Map.Entry<String, Integer> entry : map.entrySet()){
+            for(Map.Entry<String, Integer> entry1 : map.entrySet()) {
+//                if (entry.containsKey(entry.getKey())) {
+//                    map.replace(entry.getKey(), 1);
+//                    answer = false;
+//                }
+            }
+        }
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
         return answer;
     }
 
     void main(){
-        TreeSet<String> tree = new TreeSet<>();
-        tree.add("119");
-        tree.add("119283629");
-        tree.add("11");
+        String[] s = new String[]{"119", "97674223", "1195524421"};
 
-        System.out.println(tree);
+        System.out.println((solution(s)));
     }
 }
