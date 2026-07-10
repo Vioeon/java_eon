@@ -5,7 +5,6 @@ public class Prob01 {
         String answer = "";
         StringBuilder r = new StringBuilder();
         int mode = 0;
-
         for(int i=0; i<code.length(); i++){
             if(mode == 0){
                 if(code.charAt(i) != '1'){
@@ -15,7 +14,9 @@ public class Prob01 {
                 }else{
                     mode = 1;
                 }
-            }else{
+            }
+            // mode가 1일때
+            else{
                 if(code.charAt(i) != '1'){
                     if(i%2==1){
                         r.append(code.charAt(i));
