@@ -1,31 +1,30 @@
 package level01.day07;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Prob05 {
-    public int[] solution(int[] arr, int[][] queries) {
-        int[] answer = new int[queries.length];
+    public int[] solution(int[] arr) {
+        int[] result = {};
+        List<Integer> stk = new ArrayList<>();
 
-        for(int i=0; i<queries.length; i++){
-            int start = queries[i][0];
-            int last = queries[i][1];
-            for(int j=start; j<=last; j++){
-                int min = 1000000;//********************?
-                if(arr[j] > queries[i][2]){
-                    answer[i] = arr[j];
-                    break;
-                }
-                if(answer[j] == 0){
-                    answer[i] = -1;
-                }
+        for(int i=0; i<arr.length; i++){
+            if(stk.size() == 0){
+                stk.add(arr[i]);
+            }else if(stk.getLast() < arr[i]){
+                stk.add(arr[i]);
+            }else if(stk.getLast() >= arr[i]){
+                stk.removeLast();
+                i--;
             }
         }
-        return answer;
+        result = stk.stream().mapToInt(Integer::intValue).toArray();
+        return result;
     }
 
     void main() {
-        int[] n = new int[]{0, 1, 2, 4, 3}; // 393
-        int[][] n1 = new int[][]{{0, 4, 2},{0, 3, 2},{0, 2, 2}};
-        System.out.println(Arrays.toString(solution(n,n1)));
+        int[] n = new int[]{1,4,2,5,3}; // 393
+        System.out.println(Arrays.toString(solution(n)));
     }
 }

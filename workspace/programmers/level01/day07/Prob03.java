@@ -1,21 +1,19 @@
 package level01.day07;
 
+import java.util.Arrays;
+
 public class Prob03 {
-    public String solution(int[] numLog) {
-        StringBuilder answer = new StringBuilder();
-        int startNum = numLog[0];
-        for(int i=1; i<numLog.length; i++){
-            if(numLog[i] > numLog[i-1]){
-                answer.append((numLog[i]-numLog[i-1] == 1)? "w" : "d");
-            }else{
-                answer.append((numLog[i-1]-numLog[i] == 1)? "s" : "a");
-            }
+    public int[] solution(int start_num, int end_num) {
+        int[] answer = new int[end_num-start_num+1];
+        int a = 0;
+        for(int i=start_num; i<=end_num; i++){
+            answer[a] = i;
+            a++;
         }
-        return answer.toString();
+        return answer;
     }
 
     void main() {
-        int[] list = new int[]{0, 1, 0, 10, 0, 1, 0, 10, 0, -1, -2, -1};
-        System.out.println(solution(list));
+        System.out.println(Arrays.toString(solution(3, 10)));
     }
 }
